@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>org.sprint</groupId>
     <artifactId>java-final-sprint-w2025</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -15,9 +15,9 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.rocketfuel.sdbc</groupId>
-            <artifactId>postgresql-jdbc_2.13</artifactId>
-            <version>4.0.0</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.5</version>
         </dependency>
         <dependency>
             <groupId>org.mindrot</groupId>
