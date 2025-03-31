@@ -1,3 +1,8 @@
+TERMINOLOGY AND RESOURCES THAT COULD BE HELPFUL
+
+DAO: Data Access Object.
+https://www.geeksforgeeks.org/data-access-object-pattern/
+
 CLASSES: (User, Membership, and WorkoutClass need DAOs and Service classes... for some reason.)
 
 User (Interface? Abstract?)
