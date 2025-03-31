@@ -1,0 +1,34 @@
+CLASSES: (User, Membership, and WorkoutClass need DAOs and Service classes... for some reason.)
+
+User (Interface? Abstract?)
+- Member (Browse workout classes, view expenses, purchase membership)
+- Trainer (CRUD operations on workout classes, purchase membership)
+- Admin (View users and contact info, delete users, view all memberships and annual revenue)
+
+Membership
+
+WorkoutClass
+
+DATABASE TABLES:
+
+Users
+- id
+- username
+- password (bcrypt hashed)
+- email
+- phone_no
+- address
+- role
+
+Memberships
+- id
+- member_id (user_id)
+- type
+- description
+- cost
+
+WorkoutClasses
+- id
+- trainer_id (user_id)
+- type
+- description
