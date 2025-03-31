@@ -1,7 +1,12 @@
 TERMINOLOGY AND RESOURCES THAT COULD BE HELPFUL
 
-DAO: Data Access Object.
+DAO: Data Access Object. These classes act as middlemen between the Service classes and the Database.
+These handle CRUD operations.
 https://www.geeksforgeeks.org/data-access-object-pattern/
+
+Service Classes: Classes that handle the business logic of an object. i.e. calculations.
+These do not handle database operations and often defer to a DAO.
+https://stackoverflow.com/questions/34619221/a-few-questions-about-service-classes
 
 CLASSES: (User, Membership, and WorkoutClass need DAOs and Service classes... for some reason.)
 
