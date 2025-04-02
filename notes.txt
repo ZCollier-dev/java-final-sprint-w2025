@@ -36,6 +36,7 @@ Memberships
 - type
 - description
 - cost
+- purchase-date
 
 WorkoutClasses
 - id
