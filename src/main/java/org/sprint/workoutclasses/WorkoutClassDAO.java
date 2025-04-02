@@ -23,5 +23,6 @@ public class WorkoutClassDAO {
                 }
             }
         }
+        return null;
     }
 }
