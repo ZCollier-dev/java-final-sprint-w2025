@@ -7,7 +7,6 @@ import java.sql.*;
 public class UserDAO {
     public User getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
-        DriverManager DatabaseConnector;
         try (
             Connection conn = DBConnection.getConnection();
             PreparedStatement prepstat = conn.prepareStatement(sql)
