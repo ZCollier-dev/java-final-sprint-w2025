@@ -17,8 +17,13 @@ public class UserDAO {
             {
                 if (resultset.next()){
                     return new User(
-                        // resultset.getInt("id"),
-                        //etc etc
+                            resultset.getInt("id"),
+                            resultset.getString("username"),
+                            resultset.getString("password"),
+                            resultset.getString("email"),
+                            resultset.getString("phone_no"),
+                            resultset.getString("address"),
+                            resultset.getString("role")
                     );
                 }
             }

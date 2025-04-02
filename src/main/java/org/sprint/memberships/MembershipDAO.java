@@ -13,7 +13,7 @@ public class MembershipDAO {
             PreparedStatement prepstat = conn.prepareStatement(sql)
         )
         {
-            prepstat.setInt(1, membership.getUserId());
+            prepstat.setInt(1, membership.getMembershipId());
             // etc etc
             // prepstat.executeUpdate();
         }
