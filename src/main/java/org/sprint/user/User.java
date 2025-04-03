@@ -76,4 +76,8 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public String toString() {
+        return "User ID: " + userId + ", Username: " + username + ", Email: " + email + ", Phone Number: " + phoneNumber + ", Address: " + address + ", Role: " + role;
+    }
 }
