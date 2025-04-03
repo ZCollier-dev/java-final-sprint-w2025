@@ -13,9 +13,12 @@ public class MembershipDAO {
             PreparedStatement prepstat = conn.prepareStatement(sql)
         )
         {
-            prepstat.setInt(1, membership.getMembershipId());
-            // etc etc
-            // prepstat.executeUpdate();
+            prepstat.setInt(1, membership.getMemberId());
+            prepstat.setString(2, membership.getMembershipType());
+            prepstat.setString(3, membership.getMembershipDescription());
+            prepstat.setDouble(4, membership.getMembershipCost());
+            prepstat.setDate(5, membership.getPurchaseDate());
+            prepstat.executeUpdate();
         }
     }
 }

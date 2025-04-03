@@ -58,9 +58,7 @@ public class WorkoutClass {
     }
 
     // toString for workout class output
-    @Override
     public String toString() {
-        return "Workout Class Information: " +
-               "Workout Class ID: " + workoutClassId + ", Workout Class Type: " + workoutClassType + ", Workout Class Description: " + workoutClassDescription + ", Trainer ID: " + trainerId + ", Schedule: " + schedule;
+        return "Workout Class ID: " + workoutClassId + ", Workout Class Type: " + workoutClassType + ", Workout Class Description: " + workoutClassDescription + ", Trainer ID: " + trainerId + ", Schedule: " + schedule;
     }
 }
