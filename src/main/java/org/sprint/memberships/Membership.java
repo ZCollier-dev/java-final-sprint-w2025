@@ -1,6 +1,6 @@
 package org.sprint.memberships;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class Membership {
     private int membershipId;
@@ -8,19 +8,10 @@ public class Membership {
     private String membershipDescription;
     private double membershipCost;
     private int memberId; // To link the membership to the user
-    private LocalDate purchaseDate;
+    private Date purchaseDate;
 
     // Constructor
-    public Membership(int membershipId, String membershipType, String membershipDescription, double membershipCost, int memberId) {
-        this.membershipId = membershipId;
-        this.membershipType = membershipType;
-        this.membershipDescription = membershipDescription;
-        this.membershipCost = membershipCost;
-        this.memberId = memberId;
-        this.purchaseDate = LocalDate.now();
-    }
-
-    public Membership(int membershipId, String membershipType, String membershipDescription, double membershipCost, int memberId, LocalDate purchaseDate) {
+    public Membership(int membershipId, String membershipType, String membershipDescription, double membershipCost, int memberId, Date purchaseDate) {
         this.membershipId = membershipId;
         this.membershipType = membershipType;
         this.membershipDescription = membershipDescription;
@@ -70,7 +61,7 @@ public class Membership {
         this.memberId = memberId;
     }
 
-    public LocalDate getPurchaseDate() { return purchaseDate; }
+    public Date getPurchaseDate() { return purchaseDate; }
 
     // toString for membership output
     public String toString() {
