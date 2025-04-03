@@ -1,19 +1,23 @@
 package org.sprint.memberships;
 
+import java.sql.Date;
+
 public class Membership {
     private int membershipId;
     private String membershipType;
     private String membershipDescription;
     private double membershipCost;
     private int memberId; // To link the membership to the user
+    private Date purchaseDate;
 
     // Constructor
-    public Membership(int membershipId, String membershipType, String membershipDescription, double membershipCost, int memberId) {
+    public Membership(int membershipId, String membershipType, String membershipDescription, double membershipCost, int memberId, Date purchaseDate) {
         this.membershipId = membershipId;
         this.membershipType = membershipType;
         this.membershipDescription = membershipDescription;
         this.membershipCost = membershipCost;
         this.memberId = memberId;
+        this.purchaseDate = purchaseDate;
     }
 
     // Getters and setters
@@ -57,10 +61,10 @@ public class Membership {
         this.memberId = memberId;
     }
 
+    public Date getPurchaseDate() { return purchaseDate; }
+
     // toString for membership output
-    @Override
     public String toString() {
-        return "Membership Information:" + 
-               "Membership ID: " + membershipId + ", Membership Type: " + membershipType + ", Membership Description: " + membershipDescription + ", Membership Cost: " + membershipCost + ", Member ID: " + memberId;
+        return "Membership ID: " + membershipId + ", Membership Type: " + membershipType + ", Membership Description: " + membershipDescription + ", Membership Cost: " + membershipCost + ", Member ID: " + memberId + ", Purchase Date: " + purchaseDate;
     }
 }
