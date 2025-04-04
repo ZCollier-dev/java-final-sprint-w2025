@@ -1,8 +1,11 @@
 package org.sprint.workoutclasses;
 
 import org.sprint.database.DBConnection;
+import org.sprint.user.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorkoutClassDAO {
     //C
@@ -22,8 +25,9 @@ public class WorkoutClassDAO {
     }
 
     //R
-    public WorkoutClass getWorkoutClassByType(String type) throws SQLException { //Get all workout classes of a specified type.
-        String sql = "SELECT * FROM workoutclasses WHERE type = ?";
+    public List<WorkoutClass> getWorkoutClassByType(String type) throws SQLException { //Get all workout classes of a specified type.
+        String sql = "SELECT * FROM workoutclasses WHERE type = ?"; //needs to return a list
+        List<WorkoutClass> resultList = new ArrayList<>();
         try (
                 Connection conn = DBConnection.getConnection();
                 PreparedStatement prepstat = conn.prepareStatement(sql)
@@ -32,22 +36,24 @@ public class WorkoutClassDAO {
             prepstat.setString(1, type);
             try (ResultSet resultset = prepstat.executeQuery())
             {
-                if (resultset.next()){
-                    return new WorkoutClass(
+                while (resultset.next()){
+                    WorkoutClass entry = new WorkoutClass(
                             resultset.getInt("id"),
                             resultset.getString("type"),
                             resultset.getString("description"),
                             resultset.getInt("trainer_id"),
                             resultset.getString("schedule")
                     );
+                    resultList.add(entry);
                 }
+                return resultList;
             }
         }
-        return null;
     }
 
-    public WorkoutClass getWorkoutClassByTrainerId(int id) throws SQLException { //Get all workout classes from a specified trainer's id.
-        String sql = "SELECT * FROM workoutclasses WHERE trainer_id = ?";
+    public List<WorkoutClass> getWorkoutClassByTrainerId(int id) throws SQLException { //Get all workout classes from a specified trainer's id.
+        String sql = "SELECT * FROM workoutclasses WHERE trainer_id = ?"; //needs to return a list
+        List<WorkoutClass> resultList = new ArrayList<>();
         try (
                 Connection conn = DBConnection.getConnection();
                 PreparedStatement prepstat = conn.prepareStatement(sql)
@@ -56,18 +62,19 @@ public class WorkoutClassDAO {
             prepstat.setInt(1, id);
             try (ResultSet resultset = prepstat.executeQuery())
             {
-                if (resultset.next()){
-                    return new WorkoutClass(
+                while (resultset.next()){
+                    WorkoutClass entry = new WorkoutClass(
                             resultset.getInt("id"),
                             resultset.getString("type"),
                             resultset.getString("description"),
                             resultset.getInt("trainer_id"),
                             resultset.getString("schedule")
                     );
+                    resultList.add(entry);
                 }
+                return resultList;
             }
         }
-        return null;
     }
     //U
     public void updateWorkoutClass(WorkoutClass workoutClass) throws SQLException { //Update workout class with new data
@@ -87,7 +94,7 @@ public class WorkoutClassDAO {
     }
 
     //D
-    public void deleteWorkoutClassById(int id) throws SQLException { //Deletes a workout class from the database via id.
+    public boolean deleteWorkoutClassById(int id) throws SQLException { //Deletes a workout class from the database via id.
         String sql = "DELETE FROM workoutclasses WHERE id = ?";
         try (
                 Connection conn = DBConnection.getConnection();
@@ -95,7 +102,11 @@ public class WorkoutClassDAO {
         )
         {
             prepstat.setInt(1, id);
-            prepstat.executeUpdate();
+            int rowsAffected = prepstat.executeUpdate();
+            if (rowsAffected > 0){
+                return true;
+            }
+            return false;
         }
     }
 }
