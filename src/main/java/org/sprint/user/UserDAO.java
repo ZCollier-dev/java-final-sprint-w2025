@@ -1,8 +1,11 @@
 package org.sprint.user;
 
 import org.sprint.database.DBConnection;
+import org.sprint.memberships.Membership;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
     //NOTE: All passwords should be hashed via BCrypt prior to coming into the DAO.
@@ -24,8 +27,9 @@ public class UserDAO {
         }
     }
     //R
-    public User getAllUsers() throws SQLException { //Gets all users. Used for Admins.
-        String sql = "SELECT * FROM users";
+    public List<User> getAllUsers() throws SQLException { //Gets all users. Used for Admins.
+        String sql = "SELECT * FROM users"; //needs to return a list
+        List<User> resultList = new ArrayList<>();
         try (
                 Connection conn = DBConnection.getConnection();
                 PreparedStatement prepstat = conn.prepareStatement(sql)
@@ -33,8 +37,8 @@ public class UserDAO {
         {
             try (ResultSet resultset = prepstat.executeQuery())
             {
-                if (resultset.next()){
-                    return new User(
+                while (resultset.next()){
+                    User entry = new User(
                             resultset.getInt("id"),
                             resultset.getString("username"),
                             resultset.getString("password"),
@@ -43,10 +47,11 @@ public class UserDAO {
                             resultset.getString("address"),
                             resultset.getString("role")
                     );
+                    resultList.add(entry);
                 }
+                return resultList;
             }
         }
-        return null;
     }
 
     public User getUserByUsername(String username) throws SQLException { //Gets users via username.
@@ -93,7 +98,7 @@ public class UserDAO {
         }
     }
     //D
-    public void deleteUserByUsername(String username) throws SQLException { //Deletes a user from the database via username. Admin only.
+    public boolean deleteUserByUsername(String username) throws SQLException { //Deletes a user from the database via username. Admin only.
         String sql = "DELETE FROM users WHERE username = ?";
         try (
                 Connection conn = DBConnection.getConnection();
@@ -101,7 +106,11 @@ public class UserDAO {
         )
         {
             prepstat.setString(1, username);
-            prepstat.executeUpdate();
+            int rowsAffected = prepstat.executeUpdate();
+            if (rowsAffected > 0){
+                return true;
+            }
+            return false;
         }
     }
 }

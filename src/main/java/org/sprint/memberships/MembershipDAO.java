@@ -4,6 +4,8 @@ import org.sprint.database.DBConnection;
 import org.sprint.user.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MembershipDAO {
     //C
@@ -23,15 +25,16 @@ public class MembershipDAO {
         }
     }
     //R - One for members, all for Admins
-    public Membership getAllMemberships() throws SQLException { //Gets all memberships. Admins only.
-        String sql = "SELECT * FROM memberships";
+    public List<Membership> getAllMemberships() throws SQLException { //Gets all memberships. Admins only.
+        String sql = "SELECT * FROM memberships"; //needs to return a list
+        List<Membership> resultList = new ArrayList<>();
         try (
                 Connection conn = DBConnection.getConnection();
                 PreparedStatement prepstat = conn.prepareStatement(sql)
         ) {
             try (ResultSet resultset = prepstat.executeQuery()) {
-                if (resultset.next()) {
-                    return new Membership(
+                while (resultset.next()) {
+                    Membership entry = new Membership(
                             resultset.getInt("id"),
                             resultset.getString("type"),
                             resultset.getString("description"),
@@ -39,10 +42,11 @@ public class MembershipDAO {
                             resultset.getInt("member_id"),
                             resultset.getDate("purchase_date")
                     );
+                    resultList.add(entry);
                 }
+                return resultList;
             }
         }
-        return null;
     }
 
     public Membership getMembershipByMemberId(int memberId) throws SQLException { //Gets one membership based on member id.
@@ -84,7 +88,7 @@ public class MembershipDAO {
         }
     }
     //D
-    public void deleteMembershipById(int id) throws SQLException { //Deletes a membership from the database via id.
+    public boolean deleteMembershipById(int id) throws SQLException { //Deletes a membership from the database via id.
         String sql = "DELETE FROM memberships WHERE id = ?";
         try (
                 Connection conn = DBConnection.getConnection();
@@ -92,7 +96,11 @@ public class MembershipDAO {
         )
         {
             prepstat.setInt(1, id);
-            prepstat.executeUpdate();
+            int rowsAffected = prepstat.executeUpdate();
+            if (rowsAffected > 0){
+                return true;
+            }
+            return false;
         }
     }
 }
