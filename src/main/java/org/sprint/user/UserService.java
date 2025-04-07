@@ -39,8 +39,9 @@ public class UserService {
         try {
             User user = userDAO.getUserByUsername(username);
 
-            if (user != null && BCrypt.checkpw(password, user.getPassword())) {
+            if (user != null && BCrypt.checkpw(password, user.getHashedPassword())) {
                 System.out.println("Logged in successfully. Hello, " + user.getUsername() + "!");
+                return user;
             } else {
                 System.out.println("Invalid username or password. Please try again.");
                 return null;
