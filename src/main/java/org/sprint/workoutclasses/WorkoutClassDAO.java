@@ -1,112 +1,107 @@
 package org.sprint.workoutclasses;
 
-import org.sprint.database.DBConnection;
-import org.sprint.user.User;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sprint.database.DBConnection;
+
 public class WorkoutClassDAO {
-    //C
-    public void addWorkoutClass(WorkoutClass workoutClass) throws SQLException { //Insert new workout class into database
+
+    // create a new workout class to the database
+    public void addWorkoutClass(WorkoutClass workoutClass) throws SQLException {
         String sql = "INSERT INTO workoutclasses (trainer_id, type, description, schedule) VALUES (?, ?, ?, ?)";
         try (
-                Connection conn = DBConnection.getConnection();
-                PreparedStatement prepstat = conn.prepareStatement(sql)
-        )
-        {
-            prepstat.setInt(1, workoutClass.getTrainerId());
-            prepstat.setString(2, workoutClass.getWorkoutClassType());
-            prepstat.setString(3, workoutClass.getWorkoutClassDescription());
-            prepstat.setString(4, workoutClass.getSchedule());
-            prepstat.executeUpdate();
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, workoutClass.getTrainerId());
+            stmt.setString(2, workoutClass.getWorkoutClassType());
+            stmt.setString(3, workoutClass.getWorkoutClassDescription());
+            stmt.setString(4, workoutClass.getSchedule());
+            stmt.executeUpdate();
         }
     }
 
-    //R
-    public List<WorkoutClass> getWorkoutClassByType(String type) throws SQLException { //Get all workout classes of a specified type.
-        String sql = "SELECT * FROM workoutclasses WHERE type = ?"; //needs to return a list
-        List<WorkoutClass> resultList = new ArrayList<>();
+    // read all workout classes of a specified type
+    public List<WorkoutClass> getWorkoutClassByType(String type) throws SQLException {
+        List<WorkoutClass> classes = new ArrayList<>();
+        String sql = "SELECT * FROM workoutclasses WHERE type = ?";
         try (
-                Connection conn = DBConnection.getConnection();
-                PreparedStatement prepstat = conn.prepareStatement(sql)
-        )
-        {
-            prepstat.setString(1, type);
-            try (ResultSet resultset = prepstat.executeQuery())
-            {
-                while (resultset.next()){
-                    WorkoutClass entry = new WorkoutClass(
-                            resultset.getInt("id"),
-                            resultset.getString("type"),
-                            resultset.getString("description"),
-                            resultset.getInt("trainer_id"),
-                            resultset.getString("schedule")
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setString(1, type);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    WorkoutClass wc = new WorkoutClass(
+                        rs.getInt("id"),
+                        rs.getString("type"),
+                        rs.getString("description"),
+                        rs.getInt("trainer_id"),
+                        rs.getString("schedule")
                     );
-                    resultList.add(entry);
+                    classes.add(wc);
                 }
-                return resultList;
             }
         }
+        return classes;
     }
 
-    public List<WorkoutClass> getWorkoutClassByTrainerId(int id) throws SQLException { //Get all workout classes from a specified trainer's id.
-        String sql = "SELECT * FROM workoutclasses WHERE trainer_id = ?"; //needs to return a list
-        List<WorkoutClass> resultList = new ArrayList<>();
+    // read all workout classes by trainer ID
+    public List<WorkoutClass> getWorkoutClassByTrainerId(int trainerId) throws SQLException {
+        List<WorkoutClass> classes = new ArrayList<>();
+        String sql = "SELECT * FROM workoutclasses WHERE trainer_id = ?";
         try (
-                Connection conn = DBConnection.getConnection();
-                PreparedStatement prepstat = conn.prepareStatement(sql)
-        )
-        {
-            prepstat.setInt(1, id);
-            try (ResultSet resultset = prepstat.executeQuery())
-            {
-                while (resultset.next()){
-                    WorkoutClass entry = new WorkoutClass(
-                            resultset.getInt("id"),
-                            resultset.getString("type"),
-                            resultset.getString("description"),
-                            resultset.getInt("trainer_id"),
-                            resultset.getString("schedule")
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, trainerId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    WorkoutClass wc = new WorkoutClass(
+                        rs.getInt("id"),
+                        rs.getString("type"),
+                        rs.getString("description"),
+                        rs.getInt("trainer_id"),
+                        rs.getString("schedule")
                     );
-                    resultList.add(entry);
+                    classes.add(wc);
                 }
-                return resultList;
             }
         }
+        return classes;
     }
-    //U
-    public void updateWorkoutClass(WorkoutClass workoutClass) throws SQLException { //Update workout class with new data
+
+    // update an existing workout class
+    public void updateWorkoutClass(WorkoutClass workoutClass) throws SQLException {
         String sql = "UPDATE workoutclasses SET trainer_id = ?, type = ?, description = ?, schedule = ? WHERE id = ?";
         try (
-                Connection conn = DBConnection.getConnection();
-                PreparedStatement prepstat = conn.prepareStatement(sql)
-        )
-        {
-            prepstat.setInt(1, workoutClass.getTrainerId());
-            prepstat.setString(2, workoutClass.getWorkoutClassType());
-            prepstat.setString(3, workoutClass.getWorkoutClassDescription());
-            prepstat.setString(4, workoutClass.getSchedule());
-            prepstat.setInt(5, workoutClass.getWorkoutClassId());
-            prepstat.executeUpdate();
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, workoutClass.getTrainerId());
+            stmt.setString(2, workoutClass.getWorkoutClassType());
+            stmt.setString(3, workoutClass.getWorkoutClassDescription());
+            stmt.setString(4, workoutClass.getSchedule());
+            stmt.setInt(5, workoutClass.getWorkoutClassId());
+            stmt.executeUpdate();
         }
     }
 
-    //D
-    public boolean deleteWorkoutClassById(int id) throws SQLException { //Deletes a workout class from the database via id.
+    // delete a workout class by ID
+    public boolean deleteWorkoutClassById(int id) throws SQLException {
         String sql = "DELETE FROM workoutclasses WHERE id = ?";
         try (
-                Connection conn = DBConnection.getConnection();
-                PreparedStatement prepstat = conn.prepareStatement(sql)
-        )
-        {
-            prepstat.setInt(1, id);
-            int rowsAffected = prepstat.executeUpdate();
-            if (rowsAffected > 0){
-                return true;
-            }
-            return false;
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
         }
     }
 }

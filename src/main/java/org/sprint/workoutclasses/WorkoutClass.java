@@ -7,7 +7,7 @@ public class WorkoutClass {
     private int trainerId;
     private String schedule;
 
-    // Constructor
+    
     public WorkoutClass(int workoutClassId, String workoutClassType, String workoutClassDescription, int trainerId, String schedule) {
         this.workoutClassId = workoutClassId;
         this.workoutClassType = workoutClassType;
@@ -16,7 +16,7 @@ public class WorkoutClass {
         this.schedule = schedule;
     }
 
-    // Getters and setters
+    // define all criteria according to database
     public int getWorkoutClassId() {
         return workoutClassId;
     }
@@ -57,7 +57,8 @@ public class WorkoutClass {
         this.schedule = schedule;
     }
 
-    // toString for workout class output
+    // string for outputting in GymApp.java
+    @Override
     public String toString() {
         return "Workout Class ID: " + workoutClassId + ", Workout Class Type: " + workoutClassType + ", Workout Class Description: " + workoutClassDescription + ", Trainer ID: " + trainerId + ", Schedule: " + schedule;
     }

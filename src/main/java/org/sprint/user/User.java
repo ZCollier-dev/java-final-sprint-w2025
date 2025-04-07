@@ -3,17 +3,22 @@ package org.sprint.user;
 public class User {
     private int userId;
     private String username;
-    private String hashedPassword;
+    private String password;
     private String email;
     private String phoneNumber;
     private String address;
-    private String role; // Role can be admin, trainer, or member
+    private String role;
 
+<<<<<<< HEAD
     // Constructors
     public User(int userId, String username, String hashedPassword, String email, String phoneNumber, String address, String role) {
+=======
+    
+    public User(int userId, String username, String password, String email, String phoneNumber, String address, String role) {
+>>>>>>> 1b5c2d9 (Fixed several bugs regarding the DAOs, added SQL database integration and fixed the DBConnection.java file to make it more compatible with the new automatic setup file, set-up-db.bat.)
         this.userId = userId;
         this.username = username;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -30,65 +35,83 @@ public class User {
         this.role = role;
     }
 
-    // Getters and setters
+    // get all user information from database
     public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public String getUserName() {
+        return username;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getHashedPassword() {
-        return hashedPassword;
-    }
-
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+        return password;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public String getUserRole() {
+        return role;
     }
 
     public String getRole() {
         return role;
     }
 
+    // set user info in database
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setUserName(String username) {
+        this.username = username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setHashedPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setUserRole(String role) {
+        this.role = role;
+    }
+
     public void setRole(String role) {
         this.role = role;
     }
 
+    // to string for output in gymapp
     @Override
     public String toString() {
-        return "User ID: " + userId + ", Username: " + username + ", Email: " + email + ", Phone Number: " + phoneNumber + ", Address: " + address + ", Role: " + role;
+        return "User ID: " + userId + ", Username: " + username + ", Role: " + role + ", Email: " + email + ", Phone: " + phoneNumber + ", Address: " + address;
     }
 }
