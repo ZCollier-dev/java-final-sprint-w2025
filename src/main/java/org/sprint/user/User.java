@@ -9,13 +9,13 @@ public class User {
     private String address;
     private String role;
 
-<<<<<<< HEAD
-    // Constructors
+
+
     public User(int userId, String username, String hashedPassword, String email, String phoneNumber, String address, String role) {
-=======
+
     
     public User(int userId, String username, String password, String email, String phoneNumber, String address, String role) {
->>>>>>> 1b5c2d9 (Fixed several bugs regarding the DAOs, added SQL database integration and fixed the DBConnection.java file to make it more compatible with the new automatic setup file, set-up-db.bat.)
+
         this.userId = userId;
         this.username = username;
         this.password = password;
