@@ -9,13 +9,7 @@ public class User {
     private String address;
     private String role;
 
-
-
-    public User(int userId, String username, String hashedPassword, String email, String phoneNumber, String address, String role) {
-
-    
     public User(int userId, String username, String password, String email, String phoneNumber, String address, String role) {
-
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -26,9 +20,9 @@ public class User {
     }
     
     // Constructor for new users (doesn't require userId as it wouldn't be created until after registration)
-    public User(String username, String hashedPassword, String email, String phoneNumber, String address, String role) {
+    public User(String username, String password, String email, String phoneNumber, String address, String role) {
         this.username = username;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
