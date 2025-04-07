@@ -113,4 +113,16 @@ public class UserDAO {
             return false;
         }
     }
+
+    public void deleteUser(int userId) throws SQLException { // Deletes a user from the database by ID. Admin only
+        String sql = "DELETE FROM users WHERE id = ?";
+        try (
+                Connection conn = DBConnection.getConnection();
+                PreparedStatement prepstat = conn.prepareStatement(sql)
+        )
+        {
+            prepstat.setInt(1, userId);
+            prepstat.executeUpdate();
+        }
+    }
 }
