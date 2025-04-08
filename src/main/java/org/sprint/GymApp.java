@@ -47,8 +47,7 @@ public class GymApp {
         System.out.print("Password: ");
         String password = scanner.nextLine();
 
-        try {
-            User user = userService.loginForUser(username, password);
+            User user = userService.loginUser(username, password);
             if (user != null) {
                 System.out.println("Welcome, " + user.getUserName() + " (" + user.getUserRole() + ")");
                 switch (user.getUserRole().toLowerCase()) {
@@ -60,9 +59,6 @@ public class GymApp {
             } else {
                 System.out.println("Login failed. Check credentials.");
             }
-        } catch (SQLException e) {
-            System.out.println("Error during login: " + e.getMessage());
-        }
     }
 
     private static void showAdminMenu(Scanner scanner, UserService userService, MembershipService membershipService) {
@@ -85,11 +81,7 @@ public class GymApp {
                     case 3 -> {
                         System.out.print("Enter username to delete: ");
                         String username = scanner.nextLine();
-                        if (userService.deleteUserByUsername(username)) { //gets the username, deletes the user by username
-                            System.out.println("User deleted."); //deletes user
-                        } else {
-                            System.out.println("User not found."); //error handler
-                        }
+                        userService.deleteUserByUsername(username); //gets the username, deletes the user by username
                     }
                     case 4 -> membershipService.displayTotalRevenue();
                     case 5 -> System.out.println("Logging out..."); //logs you out
@@ -98,7 +90,7 @@ public class GymApp {
             } catch (SQLException e) {
                 System.out.println("Error: " + e.getMessage());
             }
-        } while (choice != 4);
+        } while (choice != 5);
     }
 // trainer menu
     private static void showTrainerMenu(Scanner scanner, User user, WorkoutClassService workoutService) {
@@ -164,11 +156,7 @@ public class GymApp {
         String role = scanner.nextLine();
 
         User user = new User(0, username, password, email, phone, address, role);
-        try {
-            userService.addUser(user);
-            System.out.println("User registered successfully!");
-        } catch (SQLException e) {
-            System.out.println("Error registering user: " + e.getMessage());
-        }
+            userService.registerUser(user);
+
     }
 }
