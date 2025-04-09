@@ -15,3 +15,15 @@ Contributions:
 Challenges faced:
 - Figuring out how each part of the program may fit together.
 - Video recording.
+
+## Sarah Murphy
+
+Contributions: 
+- PRIMARY: Focused on UserService, MembershipService, and WorkoutClass Service.
+- Worked on branch sarah-main
+- Small fixes/additions and editing other classes.
+- User and Development Documentation.
+- Class Diagrams
+
+Challenges faced: 
+- There are a couple of concepts I was unfamiliar with (Maven etc).
