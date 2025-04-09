@@ -6,6 +6,9 @@ import java.util.Scanner;
 import org.sprint.memberships.MembershipService;
 import org.sprint.user.User;
 import org.sprint.user.UserService;
+import org.sprint.user.childclasses.Admin;
+import org.sprint.user.childclasses.Member;
+import org.sprint.user.childclasses.Trainer;
 import org.sprint.workoutclasses.WorkoutClassService;
 
 public class GymApp {
@@ -47,28 +50,36 @@ public class GymApp {
         System.out.print("Password: ");
         String password = scanner.nextLine();
 
-            User user = userService.loginUser(username, password);
-            if (user != null) {
-                System.out.println("Welcome, " + user.getUserName() + " (" + user.getUserRole() + ")");
-                switch (user.getUserRole().toLowerCase()) {
-                    case "admin" -> showAdminMenu(scanner, userService, membershipService);
-                    case "trainer" -> showTrainerMenu(scanner, user, workoutService);
-                    case "member" -> showMemberMenu(scanner, user, membershipService);
-                    default -> System.out.println("Unrecognized role. Please try again!");
+            User userBase = userService.loginUser(username, password);
+            if (userBase != null) {
+                System.out.println("Welcome, " + userBase.getUserName() + " (" + userBase.getUserRole() + ")");
+                switch (userBase.getUserRole().toLowerCase()) {
+                    case "admin":
+                        Admin adminUser = new Admin(userBase.getUserId(), userBase.getUserName(), userBase.getHashedPassword(), userBase.getEmail(), userBase.getPhoneNumber(), userBase.getAddress());
+                        showAdminMenu(scanner, adminUser, userService, membershipService);
+                    case "trainer":
+                        Trainer trainerUser = new Trainer(userBase.getUserId(), userBase.getUserName(), userBase.getHashedPassword(), userBase.getEmail(), userBase.getPhoneNumber(), userBase.getAddress());
+                        showTrainerMenu(scanner, trainerUser, workoutService);
+                    case "member":
+                        Member memberUser = new Member(userBase.getUserId(), userBase.getUserName(), userBase.getHashedPassword(), userBase.getEmail(), userBase.getPhoneNumber(), userBase.getAddress());
+                        showMemberMenu(scanner, memberUser, membershipService);
+                    default: System.out.println("Unrecognized role. Please try again!");
                 }
             } else {
                 System.out.println("Login failed. Check credentials.");
             }
     }
 
-    private static void showAdminMenu(Scanner scanner, UserService userService, MembershipService membershipService) {
+    private static void showAdminMenu(Scanner scanner, Admin user, UserService userService, MembershipService membershipService) {
         int choice;
         do {
             System.out.println("\n--- Admin Menu ---");
-            System.out.println("1. View all users");
-            System.out.println("2. View all memberships");
-            System.out.println("3. Delete user by username");
-            System.out.println("4. Logout");
+            System.out.println("1. View your user info");
+            System.out.println("2. View all users");
+            System.out.println("3. View all memberships");
+            System.out.println("4. Delete user by username");
+            System.out.println("5. View Total Revenue");
+            System.out.println("6. Logout");
             System.out.print("Your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
@@ -76,69 +87,74 @@ public class GymApp {
             // different cases depending on input
             try {
                 switch (choice) {
-                    case 1 -> userService.displayAllUsers();
-                    case 2 -> membershipService.displayAllMemberships();
-                    case 3 -> {
+                    case 1 -> user.toString();
+                    case 2 -> userService.displayAllUsers();
+                    case 3 -> membershipService.displayAllMemberships();
+                    case 4 -> {
                         System.out.print("Enter username to delete: ");
                         String username = scanner.nextLine();
                         userService.deleteUserByUsername(username); //gets the username, deletes the user by username
                     }
-                    case 4 -> membershipService.displayTotalRevenue();
-                    case 5 -> System.out.println("Logging out..."); //logs you out
+                    case 5 -> membershipService.displayTotalRevenue();
+                    case 6 -> System.out.println("Logging out..."); //logs you out
                     default -> System.out.println("Invalid option."); //error handler
                 }
             } catch (SQLException e) {
                 System.out.println("Error: " + e.getMessage());
             }
-        } while (choice != 5);
+        } while (choice != 6);
     }
 // trainer menu
-    private static void showTrainerMenu(Scanner scanner, User user, WorkoutClassService workoutService) {
+    private static void showTrainerMenu(Scanner scanner, Trainer user, WorkoutClassService workoutService) {
         int choice;
         do {
             System.out.println("\n--- Trainer Menu ---");
-            System.out.println("1. View your classes");
-            System.out.println("2. Add a new class");
-            System.out.println("3. Update a class");
-            System.out.println("4. Delete a class");
-            System.out.println("5. Logout");
+            System.out.println("1. View your user info");
+            System.out.println("2. View your classes");
+            System.out.println("3. Add a new class");
+            System.out.println("4. Update a class");
+            System.out.println("5. Delete a class");
+            System.out.println("6. Logout");
             System.out.print("Your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
 // gets everything from database regarding the trainer
             try {
                 switch (choice) {
-                    case 1 -> workoutService.displayWorkoutClassesByTrainer(user.getUserId());
-                    case 2 -> workoutService.addWorkoutClass(scanner, user.getUserId());
-                    case 3 -> workoutService.updateWorkoutClass(scanner);
-                    case 4 -> workoutService.deleteWorkoutClass(scanner);
-                    case 5 -> System.out.println("Logging out...");
+                    case 1 -> user.toString();
+                    case 2 -> workoutService.displayWorkoutClassesByTrainer(user.getUserId());
+                    case 3 -> workoutService.addWorkoutClass(scanner, user.getUserId());
+                    case 4 -> workoutService.updateWorkoutClass(scanner);
+                    case 5 -> workoutService.deleteWorkoutClass(scanner);
+                    case 6 -> System.out.println("Logging out...");
                     default -> System.out.println("Invalid option.");
                 }
             } catch (SQLException e) {
                 System.out.println("Error: " + e.getMessage());
             }
-        } while (choice != 5);
+        } while (choice != 6);
     }
 
     // member menu
-    private static void showMemberMenu(Scanner scanner, User user, MembershipService membershipService) {
+    private static void showMemberMenu(Scanner scanner, Member user, MembershipService membershipService) {
         int choice;
         do {
             System.out.println("\n--- Member Menu ---");
-            System.out.println("1. View your memberships");
-            System.out.println("2. Logout");
+            System.out.println("1. View your user info");
+            System.out.println("2. View your memberships");
+            System.out.println("3. Logout");
             System.out.print("Your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
 
             
             switch (choice) {
-                case 1 -> membershipService.displayMembershipsByMemberId(user.getUserId());
-                case 2 -> System.out.println("Logging out...");
+                case 1 -> user.toString();
+                case 2 -> membershipService.displayMembershipsByMemberId(user.getUserId());
+                case 3 -> System.out.println("Logging out...");
                 default -> System.out.println("Invalid option.");
             }
-        } while (choice != 2);
+        } while (choice != 3);
     }
 // adding a new user
     private static void addNewUser(Scanner scanner, UserService userService) {
