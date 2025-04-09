@@ -87,7 +87,7 @@ public class GymApp {
             // different cases depending on input
             try {
                 switch (choice) {
-                    case 1 -> user.toString();
+                    case 1 -> System.out.println(user.toString());
                     case 2 -> userService.displayAllUsers();
                     case 3 -> membershipService.displayAllMemberships();
                     case 4 -> {
@@ -121,7 +121,7 @@ public class GymApp {
 // gets everything from database regarding the trainer
             try {
                 switch (choice) {
-                    case 1 -> user.toString();
+                    case 1 -> System.out.println(user.toString());
                     case 2 -> workoutService.displayWorkoutClassesByTrainer(user.getUserId());
                     case 3 -> workoutService.addWorkoutClass(scanner, user.getUserId());
                     case 4 -> workoutService.updateWorkoutClass(scanner);
@@ -149,7 +149,7 @@ public class GymApp {
 
             
             switch (choice) {
-                case 1 -> user.toString();
+                case 1 -> System.out.println(user.toString());
                 case 2 -> membershipService.displayMembershipsByMemberId(user.getUserId());
                 case 3 -> System.out.println("Logging out...");
                 default -> System.out.println("Invalid option.");
