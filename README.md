@@ -2,6 +2,8 @@
 
 Authors: Zachary Collier, Sarah Elizabeth Murphy, Kyle/Scarlett Budgell
 
+## VIDEO DEMONSTRATION: https://youtu.be/I1EliF0m7_c
+
 # INDIVIDUAL REPORTS
 
 ## Zachary Collier
